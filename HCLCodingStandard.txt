@@ -1,0 +1,369 @@
+1. What is Clean Code?
+• Code is readable
+• Code is extensible
+• Code is testable
+Why should we focus on clean code?
+• Easy to understand
+• Easy to change
+• Easy to maintain
+Why should we follow naming conventions?
+• 80% of the lifetime cost of a piece of software goes to maintenance.
+• Hardly any software is maintained for its whole life by the original author.
+• Code conventions improve the readability of the software, allowing engineers to understand new code more quickly and thoroughly.
+• If you ship your source code as a product, you need to make sure it is as well packaged and clean as any other product you create
+2. Source File
+Java Source File
+1. Limit the source file length to have fewer than 2k lines
+2. Provide class comment to briefly describe the implementation of the class.
+3. Provide method comment to briefly describe what method is going to do.
+**
+* Represents a student enrolled in the school.
+* A student can be enrolled in many courses.
+*/
+public class Student {
+
+private String name;
+
+/**
+* Retrieves Student information based on the student id.
+* @param id This is the student id
+* @return Student This returns Student Object.
+*/
+public Student getStudentInfo(int id) {
+Student student = new Student();
+.
+. // logic to get retrieve student based on id
+.
+return student;
+}
+
+}
+Naming Conventions
+1. Class and Interface names should be CamelCase. Use the whole word (noun or noun phrases) and avoid acronyms/abbreviations. For example class Raster or class ImageSprite.
+2. Package name should have all letters in lowercase. e.g com.tmobile over com.t_mobile or com.tTmobile. For Enterprise Payments we should use package name as com.tmobile.ep.x
+3. Method names should be verbs or verb phrase in mixed case with each internal word capitalized. e.g postPayment(), deletePage(), save() , run() or runFast();
+a. The terms get/set must be used where an attribute is accessed directly.
+b. is, has, can prefixes should be used for boolean methods. e.g isSet(), isVisible(), isFinished(), isFound(), isOpen()
+c. The term find can be used in methods where something is looked up.
+employee.getName();
+employee.setName(name);
+
+matrix.getElement(2, 4);
+matrix.setElement(2, 4, value);
+node.findShortestPath(Node destinationNode);
+4. Variables tell the reader of the program what the variable represents.
+a. It should be short and describe the intent of the variable clearly.
+b. No suffix should be used for variables representing an entity number.
+c. Abbreviations in names should be avoided.
+d. is, has, can prefix should be used for boolean variables
+e. Negated boolean variable names must be avoided.
+// Prefer (✔️) - variable names short and describe what it stores
+int schoolId;
+int[] filteredSchoolIds;
+int[] uniqueSchooldIds;
+Map<Integer, User> usersById;
+int tableNo;
+int employeeNo;
+computeAverage
+ActionEvent event;
+catch (Exception exception) { }
+boolean shouldAbort = false;
+boolean isOpen;
+boolean isError;
+boolean isFound;
+boolean hasLicense();
+boolean canEvaluate();
+
+//Avoid (❌) - Too detailed variable naming
+int schoolIdentificationNumber;
+int[] userProvidedSchoolIds;
+int[] schoolIdsAfterRemovingDuplicates;
+Map<Integer, User> idToUserMap;
+float compAvg;
+ActionEvent e;
+catch (Exception e) { }
+boolean isNoError;
+boolean isNotFound ;
+5. Constants should be uppercase with “_” separating each word. Associated constants (final variables) should be prefixed by a common type name
+int MIN_WIDTH = 44;
+int WORK_DAYS_PER_WEEK = 5;
+final int COLOR_RED = 1;
+final int COLOR_GREEN = 2;
+final int COLOR_BLUE = 3
+6. Generic variables should have the same name as their type
+void setTopic(Topic topic) // NOT to use : void setTopic(Topic value) / void setTopic(Topic aTopic)
+7. Iterator variables should be called i, j, k etc.
+Iterator i = points.iterator();
+for (int i = 0; i < nItems; i++) {}
+8. Abbreviations in names should be avoided.
+computeAverage(); /* NOT: compAvg();*/
+
+String password; /* NOT: String passwd; */
+Whitespaces & Indentations
+1. Two blank lines before starting static blocks, fields, constructors and inner classes
+2. One blank line after a method signature that is multi-line
+3. A single space separating reserved keywords like if, for, catch from an open parentheses
+4. A single space separating reserved keywords like else, catch from a closing parentheses
+5. Indentation Use 2 or 4 spaces and stay consistent
+6. Up to 70 to 120 characters depending on the effect on readability.
+7. Place line breaks after a comma and operator to eliminate the need for horizontal scrolling.
+
+3.Best Practice
+
+1. Objects Class, Interface & Data structures
+a. Avoid creating Objects or performing operations that may not be used. e.g flag based logging.
+b. Reuse Objects instead of creating new ones if possible. Use Object pool, recycle objects e.g collections
+c. Classes and methods should be small and obey the Single Responsibility Principle (SRP)
+d. Sort the members by the visibility of the access modifiers: private, default (package), protected, and public
+e. Minimize the accessibility of class members (fields) as inaccessible as possible
+f. Always use interface type when declaring a collection
+// Prefer (✔️)
+List<String> listNames = new ArrayList<String>();
+//Avoid (❌)
+ArrayList<String> listNames = new ArrayList<String>();
+g.
+h. Prefer isEmpty() over size()
+// Prefer (✔️)
+if (!listStudents.isEmpty()) {
+// dos something if the list is not empty
+}
+//Avoid (❌)
+if (listStudents.size() > 0) {
+// dos something if the list is not empty
+}
+i. Do not return null in a method that returns a collection
+// Prefer (✔️)
+public List<Student> findStudents(String className) {
+List<Student> listStudents = new ArrayList<>;
+if (//students are found//) {
+// add students to the list
+}
+return listStudents;
+}
+//Avoid (❌)
+public List<Student> findStudents(String className) {
+List<Student> listStudents = null;
+if (//students are found//) {
+// add students to the list
+}
+return listStudents;
+}
+j. Use an Array instead of an ArrayList if the size can be fixed
+k. Use an ArrayList or LinkedList to hold a list of objects in a particular sequence
+l. Use HashMap or TreeMap To hold associated pairs of Objects
+m. Use StringBuffer as it is more efficient than String when concatenation is needed.
+2. Meaningful Names
+a. Names of the classes, variables, and methods must be meaningful and clearly indicate what a method does or what an attribute is.
+b. Create pronounceable names to facilitate communication.
+c. Avoid acronyms and avoid confusing names, which may bring anyone who reads the code to the wrong conclusions.
+d. Use names that reflect the system domain, the context, and the problems that must be solved.
+3. Methods
+a. Prefer non-static methods to static methods.
+b. Restricts the number of method parameters to 4.
+c. Consider refactoring the method if it needs more than the recommended parameters. e.g bundling parameters into custom-types
+//Avoid (❌)
+public boolean setCustomerAddress(String firstName, String lastName, String streetAddress,
+String city, String zipCode, String state, String country, String phoneNumber) {
+}
+// Prefer (✔️) // This can be refactored as below to increase readability
+public boolean setCustomerAddress(Address address) {
+}
+d. Methods should only do one thing: they should do it the right way and just do it.
+e. The method should be easy to read and understand.
+f. Avoid duplication.
+4. Hardcoding
+a. Consider replacing with constants or enums defined within Java
+b. Or else, replace with constants defined at the class level or in a separate class file
+c. If possible, replace with values which can be picked from configuration or environment
+private int storeClosureDay = 7;
+// This can be refactored to use a constant from Java
+private int storeClosureDay = DayOfWeek.SUNDAY.getValue()
+5. Code Comments
+a. Comments should only complement a code, if we are not able to understand the code without comments, perhaps we need to refactor it.
+b. Comments should be used to give overviews of code and provide additional information that is not readily available in the code itself
+c. Use block comments rarely, possibly to describe non-trivial design decisions
+d. Comments should be well-formed with a proper indentation for readability
+e. Don't comment out code. Remove it and keep it code clean.
+f. Comments can be used to express the importance of certain points in the code. Don't add obvious noise.
+g. They should not be used to indicate who changed or why for that already exists in versioning.
+
+
+
+6. Logging
+a. Avoid excessive logging, think about what information might be of help in troubleshooting
+b. Be very clear and descriptive with contextual data in the log message
+c. Logs should be structured
+7. Error Handling
+a. Create messages with information about the error and pass them along with your exceptions.
+b. Mention what has failed. Where was this failure? If possible, mention why it failed.
+c. Catch the Most specific Exception first
+public void catchMostSpecificExceptionFirst() {
+try {
+doSomething("A message");
+} catch (NumberFormatException e) {
+log.error(e);
+} catch (IllegalArgumentException e) {
+log.error(e)
+}
+}
+d. Don’t Catch Throwable as it will not only catch all exceptions; it will also catch all errors
+public void doNotCatchThrowable() {
+try {
+// do something
+} catch (Throwable t) {
+// don't do this!
+}
+}
+e. Avoid returning a NULL in methods, preferably to return an empty object.
+f. Avoid passing NULL to the methods; this can generate NullPointerExceptions.
+8. Loops and Conditions
+a. Use enhanced for loop or forEach() with Lambda expressions instead of classic for
+//Prefer (✔️)
+for(String hero : heroes){
+System.out.println(hero);
+}
+//OR
+heroes.forEach(hero -> System.out.println(hero ));
+//Avoid (❌)
+for(int i = 0; i < heroes.size(); i++){
+System.out.println(heroes.get(i));
+}
+b. Using the Stream API on collections wherever possible
+//Prefer (✔️) - calculate average score of all students
+double average = listStudents.stream()
+.mapToInt(s -> s.getScore())
+.average().getAsDouble();
+System.out.println("Average score: " + average);
+//Avoid (❌) - calculate average score of all students
+double sum = 0.0;
+for (Student student : listStudents) {
+sum += student.getScore();
+}
+double average = sum / listStudents.size();
+System.out.println("Average score: " + average);
+c. When it comes to switch it’s best practice to always have a default case even without code
+d. Avoid Negative Conditionals
+//Prefer (✔️)
+if (buffer.shouldCompact()){
+//
+}
+//Avoid (❌)
+if (!buffer.shouldNotCompact()) {
+//
+}
+e. Decompose the complicated parts of the conditional into separate methods
+//Avoid (❌)
+if (date.before(SUMMER_START) || date.after(SUMMER_END)) {
+charge = quantity * winterRate + winterServiceCharge;
+}
+else {
+charge = quantity * summerRate;
+}
+// Prefer (✔️)
+if (isSummer(date)) {
+charge = summerCharge(quantity);
+}
+else {
+charge = winterCharge(quantity);
+}
+f.
+g. Consolidate all these conditionals in a single expression//Avoid (❌) // Prefer (✔️)
+double disabilityAmount() { double disabilityAmount() {
+if (seniority < 2) { if (isNotEligibleForDisability()) {
+return 0; return 0;
+} }
+if (monthsDisabled > 12) { ==> // Compute the disability amount
+return 0; //..
+} }
+if (isPartTime) {
+return 0;
+}
+// Compute the disability amount.
+// ...
+}
+h. Consolidate duplicate conditional fragments
+//Avoid (❌) // Prefer (✔️)
+if (isSpecialDeal()) { if (isSpecialDeal()) {
+total = price * 0.95; total = price * 0.95;
+send(); }
+} ==> else {
+else { total = price * 0.98;
+total = price * 0.98; }
+send(); send();
+}
+i.
+j. Replace Nested Conditional with Guard Clauses
+//Avoid (❌) // Prefer (✔️)
+public double getPayAmount() { public double getPayAmount() {
+double result; if (isDead){
+if (isDead){ return deadAmount();
+result = deadAmount(); }
+} if (isSeparated){
+else { return separatedAmount();
+if (isSeparated){ }
+result = separatedAmount(); ==> if (isRetired){
+} return retiredAmount();
+else { }
+if (isRetired){ return normalPayAmount();
+result = retiredAmount(); }
+}
+else{
+result = normalPayAmount();
+}
+}
+}
+return result;
+}
+k. Replace Conditional with Polymorphism
+//Avoid (❌)
+class Bird {
+// ...
+double getSpeed() {
+switch (type) {
+case EUROPEAN:
+return getBaseSpeed();
+case AFRICAN:
+return getBaseSpeed() - getLoadFactor() * numberOfCoconuts;
+case NORWEGIAN_BLUE:
+return (isNailed) ? 0 : getBaseSpeed(voltage);
+}
+throw new RuntimeException("Should be unreachable");
+}
+}
+// Prefer (✔️)
+abstract class Bird {
+// ...
+abstract double getSpeed();
+}
+class European extends Bird {
+double getSpeed() {
+return getBaseSpeed();
+}
+}
+class African extends Bird {
+double getSpeed() {
+return getBaseSpeed() - getLoadFactor() * numberOfCoconuts;
+}
+}
+class NorwegianBlue extends Bird {
+double getSpeed() {
+return (isNailed) ? 0 : getBaseSpeed(voltage);
+}
+}
+// Somewhere in client code
+speed = bird.getSpeed();
+
+
+9. Unit Test
+a. Make sure each piece of code is doing what you expect it to do.
+b. Test are readable and independent.
+c. One assert per test.
+d. Follow the TDDs law:
+• Don't create code before you have a failing test.
+• Don't create more tests than necessary to fail.
+• You cannot write more code than enough to pass the test that is failing.
+10. Follow Principles SOLID, DRY and KISS principles
+
+
+KISS(Keep it simple)
+
